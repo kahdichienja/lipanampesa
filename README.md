@@ -28,3 +28,17 @@ You Will need a few things from Safaricom before development.
   - The Test Credentials Obtained Are only valid in Sandbox/Development environment. Take note of them.
   - To run in Production Environment you will need real Credentials.
     - To go Live and be issued with real credentials,please refer to [this guide](https://developer.safaricom.co.ke/docs?javascript#going-live)
+
+
+
+## Credits
+
+| Contributors |
+|--------------|
+| [kahdichienja](https://github.com/kahdichienja) |
+
+----------------------------
+
+For help getting started with Flutter, view their
+[online documentation](https://flutter.dev/docs), which offers tutorials,
+samples, guidance on mobile development, and a full API reference.
