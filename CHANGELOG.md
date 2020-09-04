@@ -4,3 +4,8 @@ initial release.
 ## [0.0.9] - Friday Sep 4 17:31 2020
 
 lipa na mpesa notification push working.
+
+initial release.
+## [0.1.0] - Friday Sep 4 17:45 2020
+
+realease stable version v0.1.0. for lnmonline stkpush
