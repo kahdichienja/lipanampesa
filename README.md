@@ -1,10 +1,10 @@
 # lipa_na_mpesa_online
 
-A dart wrapper around mpesa daraja api.
+A dart wrapper around mpesa daraja api from safaricom sandbox.
 
-Ready Methods/APIs
+Ready Methods
 
-- [ ] LIPA NA MPESA
+- [x] LIPA NA MPESA ONLINE STK PUSH
 - [ ] C2BSIMULATE
 - [ ] B2B
 - [ ] C2B
