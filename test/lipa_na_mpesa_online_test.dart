@@ -10,11 +10,11 @@ void main() {
   //   expect(calculator.addOne(0), 1);
   //   expect(() => calculator.addOne(null), throwsNoSuchMethodError);
   // });
-  test('formateDateToYMDHMS', (){
-     var lnmpsatest = LNMOnline();
-     var formatedate = lnmpsatest.formateDateToYMDHMS();
-     print(formatedate);
-  });
+  // test('formateDateToYMDHMS', (){
+  //    var lnmpsatest = LNMOnline();
+  //    var formatedate = lnmpsatest.formateDateToYMDHMS();
+  //    print(formatedate);
+  // });
 }
 
 // class Calculator {
