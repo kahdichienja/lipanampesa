@@ -58,6 +58,7 @@ And save the respons to database.
 #
 
 ```dart
+//Now Support Production URLS
 import 'package:lipa_na_mpesa_online/lipa_na_mpesa_online.dart';
 import 'package:path/to/your/key.dart' as key;
 MpesaService.lipanampesa(
@@ -70,7 +71,9 @@ MpesaService.lipanampesa(
   key.amount,
   key.callbackURL,
   key.accountref,
-  key.transactionDesc)
+  key.transactionDesc,
+  apiCredintialURL: key.apiCredintialURL_prod,
+  apiurlforstkpush: key.apiurlforstkpush_prod)
   .then(
     (value) => {
       print('MerchantRequestID = '+value['MerchantRequestID']),

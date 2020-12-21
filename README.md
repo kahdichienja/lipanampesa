@@ -59,12 +59,33 @@ lipanampesa(with all @requred params.)
 
 ```
 
+
 ```dart
+//Now Support Production URLS
 import 'package:lipa_na_mpesa_online/lipa_na_mpesa_online.dart';
 import 'package:path/to/your/key.dart' as key;
+MpesaService.lipanampesa(
+  key.lipa_na_mpesa_passkey,
+  key.business_short_code,
+  key.consumer_key,
+  key.consumer_secret,
+  key.phone_number,
+  key.transactiontype,
+  key.amount,
+  key.callbackURL,
+  key.accountref,
+  key.transactionDesc,
+  apiCredintialURL: key.apiCredintialURL_prod,
+  apiurlforstkpush: key.apiurlforstkpush_prod)
+  .then(
+    (value) => {
+      //do what you want with the response from the .then(value)
+      print('MerchantRequestID = '+value['MerchantRequestID']),
+      print('CheckoutRequestID = '+value['CheckoutRequestID']),
+      print('ResponseCode = '+value['ResponseCode']),
+      print('ResponseDescription = '+value['ResponseDescription']),
+      print('CustomerMessage = '+value['CustomerMessage'])
+    },
+  )
 
-void main() {
-var pay = lipanampesa(key.lipa_na_mpesa_passkey, key.business_short_code, key.consumer_key, key.consumer_secret, key.phone_number, key.transactiontype, key.amount, key.callbackURL, key.accountref, key.transactionDesc);
-print(pay);
-}
 ```
