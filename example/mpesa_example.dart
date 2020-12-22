@@ -15,27 +15,28 @@ void main() {
     ),
   );
   print(
-    MpesaService.authenticate(key.apiCredintialURL_sand, key.consumer_key, key.consumer_secret).then(
+    MpesaService.authenticate(
+            key.apiCredintialURL_sand, key.consumer_key, key.consumer_secret)
+        .then(
       (value) => print('Mpesa access_token: ' + value),
     ),
   );
 
-
   print(
     MpesaService.lipanampesa(
-      key.lipa_na_mpesa_passkey_prod,
-      key.business_short_code_pod,
-      key.consumer_key_prod,
-      key.consumer_secret_prod,
-      key.phone_number,
-      key.transactiontype,
-      key.amount,
-      key.callbackURL_sand,
-      key.accountref,
-      key.transactionDesc,
-      apiCredintialURL: key.apiCredintialURL_prod,
-      apiurlforstkpush: key.apiurlforstkpush_prod
-    ).then(
+            key.lipa_na_mpesa_passkey_prod,
+            key.business_short_code_pod,
+            key.consumer_key_prod,
+            key.consumer_secret_prod,
+            key.phone_number,
+            key.transactiontype,
+            key.amount,
+            key.callbackURL_sand,
+            key.accountref,
+            key.transactionDesc,
+            apiCredintialURL: key.apiCredintialURL_prod,
+            apiurlforstkpush: key.apiurlforstkpush_prod)
+        .then(
       (value) => {
         print('MerchantRequestID = ' + value['MerchantRequestID']),
         print('CheckoutRequestID = ' + value['CheckoutRequestID']),
@@ -46,8 +47,6 @@ void main() {
     ),
   );
 }
-
-
 
 // {
 //   "MerchantRequestID":"20307-99562491-1"
