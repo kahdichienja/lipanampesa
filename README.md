@@ -1,19 +1,13 @@
 # lipa_na_mpesa_online
 
-A dart wrapper around mpesa daraja api from safaricom sandbox.
+A dart wrapper around mpesa daraja api from safaricom sandbox and production.
 
 Ready Methods
 
 - [x] LIPA NA MPESA ONLINE STK PUSH
-- [ ] C2BSIMULATE
-- [ ] B2B
-- [ ] C2B
-- [ ] B2C
-- [ ] TRANSACTION STATUS
-- [ ] ACCOUNT BALANCE
-- [ ] REVERSAL
 
-## Requisites
+
+## 1. Sand Box:Requisites
 
 You Will need a few things from Safaricom before development.
 
@@ -29,8 +23,18 @@ You Will need a few things from Safaricom before development.
   - To run in Production Environment you will need real Credentials.
     - To go Live and be issued with real credentials,please refer to [this guide](https://developer.safaricom.co.ke/docs?javascript#going-live)
 
+## 2. Live:Requisites
+1. Consumer Key
+2. Consumer Secret
+3. Production Credentials which is normally sent to the account email you use to go live with including the lipanampesa pass key. and till/paybill number your are going live with.
+3. Switch to the orginasation tab, and obtain the Consumer Key and Consumer Secret,
+4. The API URLS will also be sent to you by safaricom from the API support email.
 
+Download test cases when they are creating a sandbox app. The test cases are in an Excel spreadsheet which the you will fill with results from the API calls they make for each test scenarios.
 
+Once the test case scenarios have been duly filled, the you will upload the filled Excel spreadsheet during the ‘Go Live’ process. API support team will then review the test cases and then either approve or reject the production app.
+
+NOTE: IF YOU ARE STACK REACH ME THROUGH MAIL:computerscience2.10@gmail.com SUBJECT:LIPANAMPESA STKPUSH PUB.DEV.
 ## Credits
 
 | Contributors |

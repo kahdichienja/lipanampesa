@@ -1,3 +1,6 @@
+## [1.0.0] - Mon Dec 21 23:08 2020
+Production ready, with Live Documentation.
+Code Documentation.
 ## [0.9.90] - Mon Dec 21 23:08 2020
 Production ready,
 ## [0.9.90] - Friday Sep 11 22:15 2020
