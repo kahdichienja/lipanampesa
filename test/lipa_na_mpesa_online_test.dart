@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:lipa_na_mpesa_online/lipa_na_mpesa_online.dart';
 
 void main() {
   // test('adds one to input values', () {

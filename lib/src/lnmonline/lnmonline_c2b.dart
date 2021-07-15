@@ -2,12 +2,12 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class MpesaTransactionResponse {
-  String customerMessage;
-  String merchantRequestID;
-  String responseCode;
-  String checkoutRequestID;
-  String responseDescription;
-  String message;
+  String? customerMessage;
+  String? merchantRequestID;
+  String? responseCode;
+  String? checkoutRequestID;
+  String? responseDescription;
+  String? message;
   MpesaTransactionResponse({
     this.merchantRequestID,
     this.checkoutRequestID,
@@ -18,24 +18,18 @@ class MpesaTransactionResponse {
   });
 }
 
-/// this is for catching and throwing the correct error.
-class MpesaTransactionResponseToken {
-  String accesstoken;
-  MpesaTransactionResponseToken({this.accesstoken});
-}
-
 class MpesaService {
   /// This is the form that Daraja API require for generating pwd.
   ///
 
-  static Future<dynamic> formateDateToYMDHMS() async {
+  static Future<String> formateDateToYMDHMS() async {
     try {
-      var now = DateTime.now();
-      var formartedtime =
+      DateTime now = DateTime.now();
+      String formartedtime =
           "${now.year}${now.month.toString().padLeft(2, '0')}${now.day.toString().padLeft(2, '0')}${now.hour.toString().padLeft(2, '0')}${now.minute.toString().padLeft(2, '0')}${now.second.toString().padLeft(2, '0')}";
       return formartedtime;
     } catch (e) {
-      return new MpesaTransactionResponse(customerMessage: e.toString());
+      return catchAPIErrorMessage(message: e.toString());
     }
   }
 
@@ -63,14 +57,18 @@ class MpesaService {
   /// language you are using to build your app to get the Basic Auth
   ///  string that you will then use to invoke our OAuth API to get an access token.
 
-  static Future<dynamic> generatepassword(
-      var lipanampesapasskey, var businessshortcode) async {
+  static Future<String> generatepassword(
+      String lipanampesapasskey, String businessshortcode) async {
     try {
-      var formartedtime = await MpesaService.formateDateToYMDHMS();
+      String formartedtime = await MpesaService.formateDateToYMDHMS();
+
       String _rawPassword =
           businessshortcode + lipanampesapasskey + formartedtime;
+
       List<int> passwordBytes = utf8.encode(_rawPassword);
+
       String password = base64.encode(passwordBytes);
+
       return password;
     } catch (e) {
       return e.toString();
@@ -98,19 +96,21 @@ class MpesaService {
   /// Convert the resulting encrypted byte array into a string
   /// using base64 encoding. The resulting base64 encoded string is the security credential.
 
-  static Future<dynamic> authenticate(
-      var apiCredintialURL, var consumerkey, var consumersecret) async {
-    var _accessToken =
+  static Future<String> authenticate(String apiCredintialURL,
+      String consumerkey, String consumersecret) async {
+    String _accessToken =
         base64Url.encode((consumerkey + ":" + consumersecret).codeUnits);
-    var apiURL = apiCredintialURL;
+
     try {
-      http.Response response = await http
-          .get(apiURL, headers: {"Authorization": "Basic $_accessToken"});
-      var data = json.decode(response.body);
+      http.Response response = await http.get(Uri.parse(apiCredintialURL),
+          headers: {"Authorization": "Basic $_accessToken"});
+
+      Map<String, dynamic> data = json.decode(response.body);
+
       return data["access_token"];
     } catch (e) {
-      return new MpesaTransactionResponseToken(
-          accesstoken:
+      return catchAPIErrorMessage(
+          message:
               'Invalid ConsumerKey: $consumerkey or ConsumerSecrete: $consumersecret');
     }
   }
@@ -120,24 +120,22 @@ class MpesaService {
   /// This is the same technique mySafaricom App uses whenever the
   /// app is used to make payments.
 
-  static Future<dynamic> lipanampesa(
-      var lipanampesapasskey,
-      var businessshortcode,
-      var consumerkey,
-      var consumersecret,
-      var phonenumber,
-      var transactionType,
-      var amount,
-      var callBackURL,
-      var accountReference,
-      var transactionDesc,
-      {var apiCredintialURL,
-      var apiurlforstkpush}) async {
-    var accesstoken = await MpesaService.authenticate(
-        apiCredintialURL, consumerkey, consumersecret);
-    var formartedtime = await MpesaService.formateDateToYMDHMS();
-    var _password = await MpesaService.generatepassword(
-        lipanampesapasskey, businessshortcode);
+  static Future<Map<String, dynamic>> lipanampesa(
+      String lipanampesapasskey,
+      String businessshortcode,
+      String consumerkey,
+      String consumersecret,
+      String phonenumber,
+      String transactionType,
+      String amount,
+      String callBackURL,
+      String accountReference,
+      String transactionDesc,
+      {required String apiCredintialURL,
+      required String apiurlforstkpush}) async {
+    String accesstoken = await MpesaService.authenticate(apiCredintialURL, consumerkey, consumersecret);
+    String formartedtime = await MpesaService.formateDateToYMDHMS();
+    String _password = await MpesaService.generatepassword(lipanampesapasskey, businessshortcode);
 
     String requestbody = json.encode({
       'BusinessShortCode': businessshortcode,
@@ -154,7 +152,7 @@ class MpesaService {
     });
     try {
       http.Response response = await http.post(
-        apiurlforstkpush,
+        Uri.parse(apiurlforstkpush),
         body: requestbody,
         headers: {
           'Authorization': 'Bearer $accesstoken',
@@ -165,19 +163,12 @@ class MpesaService {
         return json.decode(response.body);
       } else {
         throw json.decode(response.body);
-        // return json.decode(response.body);
       }
     } catch (e) {
-      print(e);
-      return new MpesaTransactionResponse(customerMessage: "Invalid details");
+      return catchAPIError(message: {"message":"Invalid details: ${e.toString()}"});
     }
   }
 
-  static getPlatformExceptionErrorResult(err) {
-    String message = 'Something went wrong';
-    if (err.responseCode != 0) {
-      message = 'Transaction cancelled';
-    }
-    return new MpesaTransactionResponse(customerMessage: message);
-  }
+  static String catchAPIErrorMessage({required String message}) => message;
+  static Map<String, dynamic> catchAPIError({required Map<String, dynamic> message}) => message;
 }
