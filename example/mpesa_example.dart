@@ -1,5 +1,6 @@
 import 'package:lipa_na_mpesa_online/lipa_na_mpesa_online.dart';
 import 'package:lipa_na_mpesa_online/src/lnmonline/keys.dart' as key;
+import 'package:lipa_na_mpesa_online/src/models/success_mpesa_initiation.dart';
 
 void main() {
   print(
@@ -24,26 +25,25 @@ void main() {
 
   print(
     MpesaService.lipanampesa(
-            key.lipa_na_mpesa_passkey_prod,
-            key.business_short_code_pod,
-            key.consumer_key_prod,
-            key.consumer_secret_prod,
-            key.phone_number,
-            key.transactiontype,
-            key.amount,
-            key.callbackURL_sand,
-            key.accountref,
-            key.transactionDesc,
-            apiCredintialURL: key.apiCredintialURL_prod,
-            apiurlforstkpush: key.apiurlforstkpush_prod,
-          )
-        .then(
-      (value) => {
-        print('MerchantRequestID = ' + value['MerchantRequestID']),
-        print('CheckoutRequestID = ' + value['CheckoutRequestID']),
-        print('ResponseCode = ' + value['ResponseCode']),
-        print('ResponseDescription = ' + value['ResponseDescription']),
-        print('CustomerMessage = ' + value['CustomerMessage']),
+      lipanampesapasskey: key.lipa_na_mpesa_passkey,
+      businessshortcode: key.business_short_code,
+      consumerkey: key.consumer_key,
+      consumersecret: key.consumer_secret,
+      phonenumber: key.phone_number,
+      transactionType: key.transactiontype,
+      amount: key.amount,
+      callBackURL: key.callbackURL_sand,
+      accountReference: key.accountref,
+      transactionDesc: key.transactionDesc,
+      apiCredintialURL: key.apiCredintialURL_sand,
+      apiurlforstkpush: key.apiurlforstkpush_prod,
+    ).then(
+      (InitialMpesaRespoce value) => {
+        print('MerchantRequestID = ' + value.merchantRequestID),
+        print('CheckoutRequestID = ' + value.checkoutRequestID),
+        print('ResponseCode = ' + value.responseCode),
+        print('ResponseDescription = ' + value.responseDescription),
+        print('CustomerMessage = ' + value.customerMessage),
       },
     ),
   );

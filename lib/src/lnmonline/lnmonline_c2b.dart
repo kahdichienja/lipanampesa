@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:lipa_na_mpesa_online/src/models/success_mpesa_initiation.dart';
 
 class MpesaTransactionResponse {
   String? customerMessage;
@@ -98,41 +99,51 @@ class MpesaService {
 
   static Future<String> authenticate(String apiCredintialURL,
       String consumerkey, String consumersecret) async {
-    String _accessToken =
-        base64Url.encode((consumerkey + ":" + consumersecret).codeUnits);
+    String _accessToken = base64Url.encode((consumerkey + ":" + consumersecret).codeUnits);
 
     try {
-      http.Response response = await http.get(Uri.parse(apiCredintialURL),
-          headers: {"Authorization": "Basic $_accessToken"});
+      http.Response response = await http.get(Uri.parse(apiCredintialURL), headers: {"Authorization": "Basic $_accessToken"});
 
       Map<String, dynamic> data = json.decode(response.body);
 
       return data["access_token"];
     } catch (e) {
-      return catchAPIErrorMessage(
-          message:
-              'Invalid ConsumerKey: $consumerkey or ConsumerSecrete: $consumersecret');
+      return catchAPIErrorMessage(message:'Invalid ConsumerKey: $consumerkey or ConsumerSecrete: $consumersecret');
     }
   }
 
   /// Lipa na M-Pesa Online Payment API is used to initiate
   /// a M-Pesa transaction on behalf of a customer using STK Push.
   /// This is the same technique mySafaricom App uses whenever the
-  /// app is used to make payments.
+  ///  app is used to make payments.
+  /// String lipanampesapasskey,
+  /// String businessshortcode,
+  /// String consumerkey,
+  /// String consumersecret,
+  /// String phonenumber,
+  /// String transactionType,
+  /// String amount,
+  /// String callBackURL,
+  /// String accountReference,
+  /// String transactionDesc,
+  ///{required String apiCredintialURL,
+  ///   required String apiurlforstkpush}
+ 
 
-  static Future<Map<String, dynamic>> lipanampesa(
-      String lipanampesapasskey,
-      String businessshortcode,
-      String consumerkey,
-      String consumersecret,
-      String phonenumber,
-      String transactionType,
-      String amount,
-      String callBackURL,
-      String accountReference,
-      String transactionDesc,
-      {required String apiCredintialURL,
-      required String apiurlforstkpush}) async {
+  static Future<InitialMpesaRespoce> lipanampesa({
+    required String lipanampesapasskey,
+    required String businessshortcode,
+    required String consumerkey,
+    required String consumersecret,
+    required String phonenumber,
+    required String transactionType,
+    required String amount,
+    required String callBackURL,
+    required String accountReference,
+    required String transactionDesc,
+    required String apiCredintialURL,
+    required String apiurlforstkpush,
+    }) async {
     String accesstoken = await MpesaService.authenticate(apiCredintialURL, consumerkey, consumersecret);
     String formartedtime = await MpesaService.formateDateToYMDHMS();
     String _password = await MpesaService.generatepassword(lipanampesapasskey, businessshortcode);
@@ -150,7 +161,7 @@ class MpesaService {
       'AccountReference': accountReference,
       'TransactionDesc': transactionDesc
     });
-    try {
+    // try {
       http.Response response = await http.post(
         Uri.parse(apiurlforstkpush),
         body: requestbody,
@@ -160,13 +171,15 @@ class MpesaService {
         },
       );
       if (response.statusCode == 200) {
-        return json.decode(response.body);
+        Map<String, dynamic> map = json.decode(response.body);
+        // InitialMpesaRespoce
+        return InitialMpesaRespoce.fromMap(map);
       } else {
         throw json.decode(response.body);
       }
-    } catch (e) {
-      return catchAPIError(message: {"message":"Invalid details: ${e.toString()}"});
-    }
+    // } catch (e) {
+      // return catchAPIError(message: {"message":"Invalid details: ${e.toString()}"});
+    // }
   }
 
   static String catchAPIErrorMessage({required String message}) => message;
