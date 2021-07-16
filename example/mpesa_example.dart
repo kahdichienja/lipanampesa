@@ -16,8 +16,7 @@ void main() {
     ),
   );
   print(
-    MpesaService.authenticate(
-            key.apiCredintialURL_sand, key.consumer_key, key.consumer_secret)
+    MpesaService.authenticate(consumerkey: key.consumer_key, consumersecret: key.consumer_secret, isProduction: false)
         .then(
       (value) => print('Mpesa access_token: ' + value),
     ),
