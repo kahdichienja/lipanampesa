@@ -18,34 +18,33 @@ void main() {
   print(
     MpesaService.authenticate(consumerkey: key.consumer_key, consumersecret: key.consumer_secret, isProduction: false)
         .then(
-      (value) => print('Mpesa access_token: ' + value),
+      (String value) => print('Mpesa access_token: ' + value),
     ),
   );
 
-  // print(
-  //   MpesaService.lipanampesa(
-  //     lipanampesapasskey: key.lipa_na_mpesa_passkey,
-  //     businessshortcode: key.business_short_code,
-  //     consumerkey: key.consumer_key,
-  //     consumersecret: key.consumer_secret,
-  //     phonenumber: key.phone_number,
-  //     transactionType: key.transactiontype,
-  //     amount: key.amount,
-  //     callBackURL: key.callbackURL_sand,
-  //     accountReference: key.accountref,
-  //     transactionDesc: key.transactionDesc,
-  //     apiCredintialURL: key.apiCredintialURL_sand,
-  //     apiurlforstkpush: key.apiurlforstkpush_sand,
-  //   ).then(
-  //     (C2BInitialMpesaRespoce value) => {
-  //       print('MerchantRequestID = ' + value.merchantRequestID),
-  //       print('CheckoutRequestID = ' + value.checkoutRequestID),
-  //       print('ResponseCode = ' + value.responseCode),
-  //       print('ResponseDescription = ' + value.responseDescription),
-  //       print('CustomerMessage = ' + value.customerMessage),
-  //     },
-  //   ),
-  // );
+  print(
+    MpesaService.lipanampesa(
+      lipanampesapasskey: key.lipa_na_mpesa_passkey,
+      businessshortcode: key.business_short_code,
+      consumerkey: key.consumer_key,
+      consumersecret: key.consumer_secret,
+      phonenumber: key.phone_number,
+      transactionType: key.transactiontype,
+      amount: key.amount,
+      callBackURL: key.callbackURL_sand,
+      accountReference: key.accountref,
+      transactionDesc: key.transactionDesc,
+      isProduction: false
+    ).then(
+      (C2BInitialMpesaRespoce value) => {
+        print('MerchantRequestID = ' + value.merchantRequestID),
+        print('CheckoutRequestID = ' + value.checkoutRequestID),
+        print('ResponseCode = ' + value.responseCode),
+        print('ResponseDescription = ' + value.responseDescription),
+        print('CustomerMessage = ' + value.customerMessage),
+      },
+    ),
+  );
 }
 
 // {
