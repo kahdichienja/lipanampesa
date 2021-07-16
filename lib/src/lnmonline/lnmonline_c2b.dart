@@ -114,7 +114,7 @@ class MpesaService {
     } catch (e) {
       return catchAPIErrorMessage(
           message:
-              'Invalid ConsumerKey: $consumerkey or ConsumerSecrete: $consumersecret');
+              'Invalid ConsumerKey: $consumerkey or ConsumerSecrete: $consumersecret'+e.toString());
     }
   }
 

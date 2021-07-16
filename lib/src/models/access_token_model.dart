@@ -2,15 +2,18 @@ import 'dart:convert';
 
 class C2BAccessTokenModel {
   String accessToken;
-  int expiresIn;
+  String expiresIn;
   C2BAccessTokenModel({
     required this.accessToken,
     required this.expiresIn,
   });
 
+
+
+
   C2BAccessTokenModel copyWith({
     String? accessToken,
-    int? expiresIn,
+    String? expiresIn,
   }) {
     return C2BAccessTokenModel(
       accessToken: accessToken ?? this.accessToken,
