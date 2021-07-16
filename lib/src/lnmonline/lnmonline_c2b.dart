@@ -21,6 +21,11 @@ class MpesaTransactionResponse {
 }
 
 class MpesaService {
+  static const String grantCredentilaUrlSandBox =  "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials";
+  static const String grantCredentilaUrlProduction =  "https://api.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials";
+  static const String resourceUrlSandBox = "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest";
+  static const String resourceUrlProduction = "https://api.safaricom.co.ke/mpesa/stkpush/v1/processrequest";
+
   /// This is the form that Daraja API require for generating pwd.
   ///
 
@@ -98,23 +103,27 @@ class MpesaService {
   /// Convert the resulting encrypted byte array into a string
   /// using base64 encoding. The resulting base64 encoded string is the security credential.
 
-  static Future<String> authenticate(String apiCredintialURL,
-      String consumerkey, String consumersecret) async {
+  static Future<String> authenticate(
+      {
+      required String consumerkey,
+      required String consumersecret,
+      required bool isProduction,
+      }) async {
     String _accessToken =
         base64Url.encode((consumerkey + ":" + consumersecret).codeUnits);
 
     try {
-      http.Response response = await http.get(Uri.parse(apiCredintialURL),
+      http.Response response = await http.get(Uri.parse(isProduction ? grantCredentilaUrlProduction : grantCredentilaUrlSandBox),
           headers: {"Authorization": "Basic $_accessToken"});
 
       Map<String, dynamic> map = json.decode(response.body);
-      print(map);
 
       return C2BAccessTokenModel.fromMap(map).accessToken;
     } catch (e) {
       return catchAPIErrorMessage(
           message:
-              'Invalid ConsumerKey: $consumerkey or ConsumerSecrete: $consumersecret'+e.toString());
+              'Invalid ConsumerKey: $consumerkey or ConsumerSecrete: $consumersecret :' +
+                  e.toString());
     }
   }
 
@@ -146,11 +155,9 @@ class MpesaService {
     required String callBackURL,
     required String accountReference,
     required String transactionDesc,
-    required String apiCredintialURL,
-    required String apiurlforstkpush,
+    required bool isProduction,
   }) async {
-    String accesstoken = await MpesaService.authenticate(
-        apiCredintialURL, consumerkey, consumersecret);
+    String accesstoken = await MpesaService.authenticate(consumerkey: consumerkey, consumersecret: consumersecret, isProduction: isProduction);
     String formartedtime = await MpesaService.formateDateToYMDHMS();
     String _password = await MpesaService.generatepassword(
         lipanampesapasskey, businessshortcode);
@@ -170,7 +177,7 @@ class MpesaService {
     });
     // try {
     http.Response response = await http.post(
-      Uri.parse(apiurlforstkpush),
+      Uri.parse(isProduction? resourceUrlProduction: resourceUrlSandBox),
       body: requestbody,
       headers: {
         'Authorization': 'Bearer $accesstoken',
