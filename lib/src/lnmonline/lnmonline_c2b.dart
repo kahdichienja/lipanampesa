@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:lipa_na_mpesa_online/src/models/access_token_model.dart';
 import 'package:lipa_na_mpesa_online/src/models/success_mpesa_initiation.dart';
 
 class MpesaTransactionResponse {
@@ -106,10 +107,10 @@ class MpesaService {
       http.Response response = await http.get(Uri.parse(apiCredintialURL),
           headers: {"Authorization": "Basic $_accessToken"});
 
-      Map<String, dynamic> data = json.decode(response.body);
-      print(data);
+      Map<String, dynamic> map = json.decode(response.body);
+      print(map);
 
-      return data["access_token"];
+      return C2BAccessTokenModel.fromMap(map).accessToken;
     } catch (e) {
       return catchAPIErrorMessage(
           message:
