@@ -69,27 +69,25 @@ lipanampesa(with all @requred params.)
 import 'package:lipa_na_mpesa_online/lipa_na_mpesa_online.dart';
 import 'package:path/to/your/key.dart' as key;
 MpesaService.lipanampesa(
-  key.lipa_na_mpesa_passkey,
-  key.business_short_code,
-  key.consumer_key,
-  key.consumer_secret,
-  key.phone_number,
-  key.transactiontype,
-  key.amount,
-  key.callbackURL,
-  key.accountref,
-  key.transactionDesc,
-  apiCredintialURL: key.apiCredintialURL_prod,
-  apiurlforstkpush: key.apiurlforstkpush_prod)
-  .then(
-    (value) => {
-      //do what you want with the response from the .then(value)
-      print('MerchantRequestID = '+value['MerchantRequestID']),
-      print('CheckoutRequestID = '+value['CheckoutRequestID']),
-      print('ResponseCode = '+value['ResponseCode']),
-      print('ResponseDescription = '+value['ResponseDescription']),
-      print('CustomerMessage = '+value['CustomerMessage'])
-    },
-  )
+      lipanampesapasskey: key.lipa_na_mpesa_passkey,
+      businessshortcode: key.business_short_code,
+      consumerkey: key.consumer_key,
+      consumersecret: key.consumer_secret,
+      phonenumber: key.phone_number,
+      transactionType: key.transactiontype,
+      amount: key.amount,
+      callBackURL: key.callbackURL_sand,
+      accountReference: key.accountref,
+      transactionDesc: key.transactionDesc,
+      isProduction: false
+    ).then(
+      (C2BInitialMpesaRespoce value) => {
+        print('MerchantRequestID = ' + value.merchantRequestID),
+        print('CheckoutRequestID = ' + value.checkoutRequestID),
+        print('ResponseCode = ' + value.responseCode),
+        print('ResponseDescription = ' + value.responseDescription),
+        print('CustomerMessage = ' + value.customerMessage),
+      },
+    ),
 
 ```

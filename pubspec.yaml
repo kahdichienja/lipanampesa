@@ -1,6 +1,6 @@
 name: lipa_na_mpesa_online
 description: This is a dart mpesa daraja api from safaricom sandbox online payment. Written in pure dart for(ios, android, web and in plain native dart) and works.
-version: 1.0.01
+version: 1.0.02
 author: kahdichienjah
 
 homepage: https://github.com/kahdichienja/lipanampesa
