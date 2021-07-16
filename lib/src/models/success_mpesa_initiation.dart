@@ -1,12 +1,12 @@
 import 'dart:convert';
 
-class InitialMpesaRespoce {
+class C2BInitialMpesaRespoce {
       String merchantRequestID;
       String checkoutRequestID;
       String responseCode;
       String responseDescription;
       String customerMessage;
-  InitialMpesaRespoce({
+  C2BInitialMpesaRespoce({
     required this.merchantRequestID,
     required this.checkoutRequestID,
     required this.responseCode,
@@ -15,14 +15,14 @@ class InitialMpesaRespoce {
   });
 
 
-  InitialMpesaRespoce copyWith({
+  C2BInitialMpesaRespoce copyWith({
     String? merchantRequestID,
     String? checkoutRequestID,
     String? responseCode,
     String? responseDescription,
     String? customerMessage,
   }) {
-    return InitialMpesaRespoce(
+    return C2BInitialMpesaRespoce(
       merchantRequestID: merchantRequestID ?? this.merchantRequestID,
       checkoutRequestID: checkoutRequestID ?? this.checkoutRequestID,
       responseCode: responseCode ?? this.responseCode,
@@ -41,8 +41,8 @@ class InitialMpesaRespoce {
     };
   }
 
-  factory InitialMpesaRespoce.fromMap(Map<String, dynamic> map) {
-    return InitialMpesaRespoce(
+  factory C2BInitialMpesaRespoce.fromMap(Map<String, dynamic> map) {
+    return C2BInitialMpesaRespoce(
       merchantRequestID: map['MerchantRequestID'],
       checkoutRequestID: map['CheckoutRequestID'],
       responseCode: map['ResponseCode'],
@@ -53,18 +53,18 @@ class InitialMpesaRespoce {
 
   String toJson() => json.encode(toMap());
 
-  factory InitialMpesaRespoce.fromJson(String source) => InitialMpesaRespoce.fromMap(json.decode(source));
+  factory C2BInitialMpesaRespoce.fromJson(String source) => C2BInitialMpesaRespoce.fromMap(json.decode(source));
 
   @override
   String toString() {
-    return 'InitialMpesaRespoce(merchantRequestID: $merchantRequestID, checkoutRequestID: $checkoutRequestID, responseCode: $responseCode, responseDescription: $responseDescription, customerMessage: $customerMessage)';
+    return 'C2BInitialMpesaRespoce(merchantRequestID: $merchantRequestID, checkoutRequestID: $checkoutRequestID, responseCode: $responseCode, responseDescription: $responseDescription, customerMessage: $customerMessage)';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
   
-    return other is InitialMpesaRespoce &&
+    return other is C2BInitialMpesaRespoce &&
       other.merchantRequestID == merchantRequestID &&
       other.checkoutRequestID == checkoutRequestID &&
       other.responseCode == responseCode &&

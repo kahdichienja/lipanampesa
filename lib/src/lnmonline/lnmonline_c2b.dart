@@ -20,7 +20,6 @@ class MpesaTransactionResponse {
 }
 
 class MpesaService {
-  
   /// This is the form that Daraja API require for generating pwd.
   ///
 
@@ -100,16 +99,21 @@ class MpesaService {
 
   static Future<String> authenticate(String apiCredintialURL,
       String consumerkey, String consumersecret) async {
-    String _accessToken = base64Url.encode((consumerkey + ":" + consumersecret).codeUnits);
+    String _accessToken =
+        base64Url.encode((consumerkey + ":" + consumersecret).codeUnits);
 
     try {
-      http.Response response = await http.get(Uri.parse(apiCredintialURL), headers: {"Authorization": "Basic $_accessToken"});
+      http.Response response = await http.get(Uri.parse(apiCredintialURL),
+          headers: {"Authorization": "Basic $_accessToken"});
 
       Map<String, dynamic> data = json.decode(response.body);
+      print(data);
 
       return data["access_token"];
     } catch (e) {
-      return catchAPIErrorMessage(message:'Invalid ConsumerKey: $consumerkey or ConsumerSecrete: $consumersecret');
+      return catchAPIErrorMessage(
+          message:
+              'Invalid ConsumerKey: $consumerkey or ConsumerSecrete: $consumersecret');
     }
   }
 
@@ -129,9 +133,8 @@ class MpesaService {
   /// String transactionDesc,
   ///{required String apiCredintialURL,
   ///   required String apiurlforstkpush}
- 
 
-  static Future<InitialMpesaRespoce> lipanampesa({
+  static Future<C2BInitialMpesaRespoce> lipanampesa({
     required String lipanampesapasskey,
     required String businessshortcode,
     required String consumerkey,
@@ -144,10 +147,12 @@ class MpesaService {
     required String transactionDesc,
     required String apiCredintialURL,
     required String apiurlforstkpush,
-    }) async {
-    String accesstoken = await MpesaService.authenticate(apiCredintialURL, consumerkey, consumersecret);
+  }) async {
+    String accesstoken = await MpesaService.authenticate(
+        apiCredintialURL, consumerkey, consumersecret);
     String formartedtime = await MpesaService.formateDateToYMDHMS();
-    String _password = await MpesaService.generatepassword(lipanampesapasskey, businessshortcode);
+    String _password = await MpesaService.generatepassword(
+        lipanampesapasskey, businessshortcode);
 
     String requestbody = json.encode({
       'BusinessShortCode': businessshortcode,
@@ -163,26 +168,28 @@ class MpesaService {
       'TransactionDesc': transactionDesc
     });
     // try {
-      http.Response response = await http.post(
-        Uri.parse(apiurlforstkpush),
-        body: requestbody,
-        headers: {
-          'Authorization': 'Bearer $accesstoken',
-          'Content-Type': 'application/json',
-        },
-      );
-      if (response.statusCode == 200) {
-        Map<String, dynamic> map = json.decode(response.body);
-        // InitialMpesaRespoce
-        return InitialMpesaRespoce.fromMap(map);
-      } else {
-        throw json.decode(response.body);
-      }
+    http.Response response = await http.post(
+      Uri.parse(apiurlforstkpush),
+      body: requestbody,
+      headers: {
+        'Authorization': 'Bearer $accesstoken',
+        'Content-Type': 'application/json',
+      },
+    );
+    if (response.statusCode == 200) {
+      Map<String, dynamic> map = json.decode(response.body);
+      // C2BInitialMpesaRespoce
+      return C2BInitialMpesaRespoce.fromMap(map);
+    } else {
+      throw json.decode(response.body);
+    }
     // } catch (e) {
-      // return catchAPIError(message: {"message":"Invalid details: ${e.toString()}"});
+    // return catchAPIError(message: {"message":"Invalid details: ${e.toString()}"});
     // }
   }
 
   static String catchAPIErrorMessage({required String message}) => message;
-  static Map<String, dynamic> catchAPIError({required Map<String, dynamic> message}) => message;
+  static Map<String, dynamic> catchAPIError(
+          {required Map<String, dynamic> message}) =>
+      message;
 }

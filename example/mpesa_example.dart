@@ -38,7 +38,7 @@ void main() {
       apiCredintialURL: key.apiCredintialURL_sand,
       apiurlforstkpush: key.apiurlforstkpush_sand,
     ).then(
-      (InitialMpesaRespoce value) => {
+      (C2BInitialMpesaRespoce value) => {
         print('MerchantRequestID = ' + value.merchantRequestID),
         print('CheckoutRequestID = ' + value.checkoutRequestID),
         print('ResponseCode = ' + value.responseCode),
