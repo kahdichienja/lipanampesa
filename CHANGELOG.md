@@ -1,3 +1,5 @@
+## [1.0.03] - Tue Dec 22 22:31 2020
+Null Safety Support
 ## [1.0.02] - Tue Dec 22 22:31 2020
 Null Safety Support
 Production ready, with Live Documentation.
