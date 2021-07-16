@@ -36,7 +36,7 @@ void main() {
       accountReference: key.accountref,
       transactionDesc: key.transactionDesc,
       apiCredintialURL: key.apiCredintialURL_sand,
-      apiurlforstkpush: key.apiurlforstkpush_prod,
+      apiurlforstkpush: key.apiurlforstkpush_sand,
     ).then(
       (InitialMpesaRespoce value) => {
         print('MerchantRequestID = ' + value.merchantRequestID),
